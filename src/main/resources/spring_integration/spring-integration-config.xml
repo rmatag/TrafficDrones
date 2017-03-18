@@ -13,5 +13,10 @@
              service-interface="com.rmatag.traffic.components.MessageGateway"
              default-request-channel="inputChannel" />
 
+    <router input-channel="inputChannel" method="routeDroneMessage" ref="droneMessageRouter">
+        <beans:bean class=""
+
+    </router>
+
 
 </beans:beans>
