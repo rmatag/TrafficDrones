@@ -7,16 +7,39 @@
 			http://www.springframework.org/schema/integration
 			http://www.springframework.org/schema/integration/spring-integration.xsd">
 
-    <channel id="inputChannel" />
+    <poller default="true" fixed-delay="50"/>
+    <channel id="inputChannel"/>
 
     <gateway id="messageGateway"
              service-interface="com.rmatag.traffic.components.MessageGateway"
-             default-request-channel="inputChannel" />
+             default-request-channel="inputChannel"/>
 
-    <router input-channel="inputChannel" method="routeDroneMessage" ref="droneMessageRouter">
-        <beans:bean class=""
+    <router input-channel="inputChannel" method="routeDroneMessage" ref="droneMessageRouter"/>
+    <beans:bean class="com.rmatag.traffic.components.DroneMessageRouter" id="droneMessageRouter"/>
 
-    </router>
+    <channel id="queue5937"><queue capacity="10"/></channel>
+    <channel id="queue6043"><queue capacity="10"/></channel>
+    <channel id="reportTrafficQueue"/>
+
+    <service-activator input-channel="queue5937" method="moveDrone5937" output-channel="reportTrafficQueue"
+                       ref="serviceDroneActivator"/>
+    <service-activator input-channel="queue6043" method="moveDrone6043" output-channel="reportTrafficQueue"
+                       ref="serviceDroneActivator"/>
+
+    <beans:bean class="com.rmatag.traffic.components.ServiceDroneActivator" id="serviceDroneActivator">
+        <beans:property ref="drone5937" name="drone5937"/>
+        <beans:property ref="drone6043" name="drone6043"/>
+    </beans:bean >
+
+    <outbound-channel-adapter channel="reportTrafficQueue" ref="reportTrafficDAO" method="reportTraffic"/>
+    <beans:bean class="com.rmatag.traffic.components.ReportTrafficDAO" id="reportTrafficDAO"/>
 
 
+    <beans:bean id="drone5937" class="com.rmatag.traffic.dto.Drone">
+        <beans:constructor-arg type="java.lang.String" value="5937" />
+    </beans:bean>
+
+    <beans:bean id="drone6043" class="com.rmatag.traffic.dto.Drone">
+        <beans:constructor-arg type="java.lang.String" value="6043" />
+    </beans:bean>
 </beans:beans>

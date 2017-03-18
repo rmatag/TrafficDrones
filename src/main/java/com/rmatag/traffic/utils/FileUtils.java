@@ -1,11 +1,10 @@
 package com.rmatag.traffic.utils;
 
 import com.rmatag.traffic.components.Dispatcher;
-import com.rmatag.traffic.model.DroneMessage;
-import com.rmatag.traffic.model.DroneMessageType;
+import com.rmatag.traffic.dto.DroneMessage;
+import com.rmatag.traffic.dto.DroneMessageType;
 import org.springframework.util.ResourceUtils;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -46,7 +45,9 @@ public class FileUtils {
         String[] splittedLine = line.split(splitChar);
         try {
             DroneMessageType messageType = getDroneMessageType(cleanString(splittedLine[3]));
-            return new DroneMessage(messageType, Double.valueOf(cleanString(splittedLine[1])), Double.valueOf(cleanString(splittedLine[2])), DATE_FORMAT.parse(cleanString(splittedLine[3])));
+            return new DroneMessage(messageType, cleanString(splittedLine[0]),
+                    Double.valueOf(cleanString(splittedLine[1])), Double.valueOf(cleanString(splittedLine[2])),
+                    DATE_FORMAT.parse(cleanString(splittedLine[3])));
         } catch (ParseException e) {
             throw new RuntimeException();
         }

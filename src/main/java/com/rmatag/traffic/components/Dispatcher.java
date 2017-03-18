@@ -1,9 +1,8 @@
 package com.rmatag.traffic.components;
 
-import com.rmatag.traffic.model.DroneMessage;
+import com.rmatag.traffic.dto.DroneMessage;
 
 import java.util.List;
-import java.util.Map;
 
 public class Dispatcher {
     public static final String SIMULATION_TIMEOUT = "08:10:00";
@@ -22,7 +21,7 @@ public class Dispatcher {
 
     public void sendMessages() {
 
-        messageGateway.sendMessage(new DroneMessage());
+        messageGateway.sendMessage(this.droneMessages.get(0));
     }
 
 }

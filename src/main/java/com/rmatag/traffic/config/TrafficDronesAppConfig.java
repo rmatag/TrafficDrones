@@ -2,9 +2,9 @@ package com.rmatag.traffic.config;
 
 import com.rmatag.traffic.components.Dispatcher;
 import com.rmatag.traffic.components.MessageGateway;
-import com.rmatag.traffic.model.DroneMessage;
+import com.rmatag.traffic.dto.Drone;
+import com.rmatag.traffic.dto.DroneMessage;
 import com.rmatag.traffic.utils.FileUtils;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -54,6 +54,16 @@ public class TrafficDronesAppConfig {
     @Bean
     public Dispatcher dispatcher6043() {
         return new Dispatcher(getMessageGateway(), messages6043());
+    }
+
+    @Bean
+    public Drone drone5937() {
+        return new Drone("5937");
+    }
+
+    @Bean
+    public Drone drone6043() {
+        return new Drone("6043");
     }
 
 }
