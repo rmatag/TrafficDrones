@@ -13,7 +13,6 @@ import org.springframework.context.ConfigurableApplicationContext;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
 @SpringBootApplication
 public class TrafficDronesApp {

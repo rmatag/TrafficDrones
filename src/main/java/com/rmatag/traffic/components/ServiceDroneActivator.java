@@ -13,15 +13,15 @@ public class ServiceDroneActivator {
 
     public Drone moveDrone5937(DroneMessage message) {
         logger.info("Moving the Drone 5937 to the point: Latitude: ({}, {}", message.getLatitude(), message.getLongitude());
-        drone5937.setLatitude(message.getLatitude());
-        drone5937.setLongitude(message.getLongitude());
+        drone5937.moveDrone(message.getLatitude(), message.getLongitude());
+        drone5937.setTime(message.getTime());
         return drone5937;
     }
 
     public Drone moveDrone6043(DroneMessage message) {
         logger.info("Moving the Drone 6043 to the point: Latitude: ({}, {}", message.getLatitude(), message.getLongitude());
-        drone6043.setLatitude(message.getLatitude());
-        drone6043.setLongitude(message.getLongitude());
+        drone6043.moveDrone(message.getLatitude(), message.getLongitude());
+        drone6043.setTime(message.getTime());
         return drone6043;
     }
 

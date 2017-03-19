@@ -33,6 +33,9 @@ public class Dispatcher implements Runnable {
                 TrafficDronesApp.shutdownTrafficDronesApp();
             }
         }
+    }
 
+    public void setDroneMessages(List<DroneMessage> droneMessages) {
+        this.droneMessages = droneMessages;
     }
 }

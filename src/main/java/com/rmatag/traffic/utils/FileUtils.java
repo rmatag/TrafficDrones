@@ -5,20 +5,14 @@ import com.rmatag.traffic.dto.DroneMessage;
 import com.rmatag.traffic.dto.DroneMessageType;
 import com.rmatag.traffic.dto.TrafficReport;
 import com.rmatag.traffic.dto.TubeStation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.util.ResourceUtils;
 
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.net.URI;
-import java.nio.charset.Charset;
 import java.nio.file.Files;
-import java.nio.file.OpenOption;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
@@ -27,12 +21,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class FileUtils {
+    private static final Logger logger = LoggerFactory.getLogger(FileUtils.class);
     private static final String COORDINATES_FILES_PATH = "classpath:coordinatesFiles/";
-    private static final String REPORT_FILE = "trafficReport.csv";
 
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 
-    private static BufferedWriter bufferedWriterReport = null;
     private static String splitChar = ",";
 
     public static List<DroneMessage> getDroneMessageFromFile(String fileName) {
@@ -72,21 +65,6 @@ public class FileUtils {
             e.printStackTrace();
         }
         return tubeStationInfoList;
-    }
-
-    public static void storeTrafficConditionInFile(TrafficReport trafficReport) {
-        try {
-            File reportFile = new File(REPORT_FILE);
-
-            if (bufferedWriterReport == null) {
-                bufferedWriterReport = new BufferedWriter(new FileWriter(reportFile));
-            }
-
-            String reportLine = generateReportLine(trafficReport);
-            bufferedWriterReport.append(reportLine + "\n");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     private static String generateReportLine(TrafficReport trafficReport) {

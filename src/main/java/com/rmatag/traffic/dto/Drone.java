@@ -1,5 +1,7 @@
 package com.rmatag.traffic.dto;
 
+import java.util.Date;
+
 public class Drone {
     public static final Double SPEED = 30.5;
 
@@ -8,6 +10,8 @@ public class Drone {
     private Double latitude;
 
     private Double longitude;
+
+    private Date time;
 
     public Drone() {
         this.latitude = 0.0;
@@ -49,12 +53,21 @@ public class Drone {
         this.longitude = lon;
     }
 
+    public Date getTime() {
+        return time;
+    }
+
+    public void setTime(Date time) {
+        this.time = time;
+    }
+
     @Override
     public String toString() {
         return "Drone{" +
                 "id=" + id +
                 ", latitude=" + latitude +
                 ", longitude=" + longitude +
+                ", time=" + time +
                 '}';
     }
 }

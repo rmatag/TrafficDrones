@@ -60,4 +60,15 @@ public class TrafficReport {
     public void setTrafficCondition(String trafficCondition) {
         this.trafficCondition = trafficCondition;
     }
+
+    @Override
+    public String toString() {
+        return "TrafficReport{" +
+                "droneId='" + droneId + '\'' +
+                ", tubeStationName='" + tubeStationName + '\'' +
+                ", time='" + time + '\'' +
+                ", droneSpeed='" + droneSpeed + '\'' +
+                ", trafficCondition='" + trafficCondition + '\'' +
+                '}';
+    }
 }

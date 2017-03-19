@@ -39,6 +39,10 @@ public class DroneMessage {
 
     public DroneMessageType getDroneMessageType() { return type; }
 
+    public Date getTime() {
+        return time;
+    }
+
     @Override
     public String toString() {
         return "DroneMessage{" +
