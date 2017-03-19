@@ -37,6 +37,8 @@ public class DroneMessage {
         return longitude;
     }
 
+    public DroneMessageType getDroneMessageType() { return type; }
+
     @Override
     public String toString() {
         return "DroneMessage{" +

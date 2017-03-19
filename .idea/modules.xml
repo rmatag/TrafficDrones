@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/TrafficDrones.iml" filepath="$PROJECT_DIR$/TrafficDrones.iml" />
+      <module fileurl="file://$USER_HOME$/projects/ecomm/ws-development/ecomm-fix-profiles/ecomm-fix-profiles.iml" filepath="$USER_HOME$/projects/ecomm/ws-development/ecomm-fix-profiles/ecomm-fix-profiles.iml" />
     </modules>
   </component>
 </project>
