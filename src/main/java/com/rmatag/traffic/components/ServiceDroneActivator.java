@@ -8,8 +8,8 @@ import org.slf4j.LoggerFactory;
 public class ServiceDroneActivator {
     private static final Logger logger = LoggerFactory.getLogger(ServiceDroneActivator.class);
 
-    Drone drone5937;
-    Drone drone6043;
+    private Drone drone5937;
+    private Drone drone6043;
 
     public Drone moveDrone5937(DroneMessage message) {
         logger.info("Moving the Drone 5937 to the point: Latitude: ({}, {}", message.getLatitude(), message.getLongitude());

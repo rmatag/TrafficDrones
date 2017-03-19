@@ -1,10 +1,11 @@
 package com.rmatag.traffic.dto;
 
 public class Drone {
+    public static final Double SPEED = 30.5;
 
     private String id;
 
-    private Double latitude ;
+    private Double latitude;
 
     private Double longitude;
 

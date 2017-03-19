@@ -3,12 +3,22 @@ package com.rmatag.traffic.utils;
 import com.rmatag.traffic.components.Dispatcher;
 import com.rmatag.traffic.dto.DroneMessage;
 import com.rmatag.traffic.dto.DroneMessageType;
+import com.rmatag.traffic.dto.TrafficReport;
+import com.rmatag.traffic.dto.TubeStation;
 import org.springframework.util.ResourceUtils;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.net.URI;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
+import java.nio.file.OpenOption;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalTime;
@@ -18,12 +28,34 @@ import java.util.stream.Collectors;
 
 public class FileUtils {
     private static final String COORDINATES_FILES_PATH = "classpath:coordinatesFiles/";
+    private static final String REPORT_FILE = "trafficReport.csv";
+
     private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 
+    private static BufferedWriter bufferedWriterReport = null;
+    private static String splitChar = ",";
 
     public static List<DroneMessage> getDroneMessageFromFile(String fileName) {
         List<String> fileLines;
-        List<DroneMessage> dropMessages = new ArrayList<>();
+        List<DroneMessage> droneMessages = new ArrayList<>();
+
+        File file;
+        try {
+            file = ResourceUtils.getFile(COORDINATES_FILES_PATH + fileName);
+            fileLines = Files.readAllLines(file.toPath());
+            droneMessages = fileLines.stream().map(l -> convertLineToDroneMessage(l, splitChar)).collect(Collectors.toList());
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return droneMessages;
+    }
+
+    public static List<TubeStation> getTubeStationFromFile(String fileName) {
+        List<String> fileLines;
+        List<TubeStation> tubeStationInfoList = new ArrayList<>();
 
         String splitChar = ",";
 
@@ -31,14 +63,44 @@ public class FileUtils {
         try {
             file = ResourceUtils.getFile(COORDINATES_FILES_PATH + fileName);
             fileLines = Files.readAllLines(file.toPath());
-            dropMessages = fileLines.stream().map(l -> convertLineToDroneMessage(l, splitChar)).collect(Collectors.toList());
+            tubeStationInfoList =
+                    fileLines.stream().map(l -> convertLineToTubeStation(l, splitChar)).collect(Collectors.toList());
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return dropMessages;
+        return tubeStationInfoList;
+    }
+
+    public static void storeTrafficConditionInFile(TrafficReport trafficReport) {
+        try {
+            File reportFile = new File(REPORT_FILE);
+
+            if (bufferedWriterReport == null) {
+                bufferedWriterReport = new BufferedWriter(new FileWriter(reportFile));
+            }
+
+            String reportLine = generateReportLine(trafficReport);
+            bufferedWriterReport.append(reportLine + "\n");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static String generateReportLine(TrafficReport trafficReport) {
+        StringBuffer sb = new StringBuffer();
+        sb.append(trafficReport.getTubeStationName());
+        sb.append(splitChar);
+        sb.append(trafficReport.getDroneId());
+        sb.append(splitChar);
+        sb.append(trafficReport.getTime());
+        sb.append(splitChar);
+        sb.append(trafficReport.getDroneSpeed());
+        sb.append(splitChar);
+        sb.append(trafficReport.getTrafficCondition());
+        return sb.toString();
     }
 
     private static DroneMessage convertLineToDroneMessage(String line, String splitChar) {
@@ -51,6 +113,13 @@ public class FileUtils {
         } catch (ParseException e) {
             throw new RuntimeException();
         }
+    }
+
+    private static TubeStation convertLineToTubeStation(String line, String splitChar) {
+        String[] splittedLine = line.split(splitChar);
+        return new TubeStation(cleanString(splittedLine[0]), Double.valueOf(cleanString(splittedLine[1])),
+                Double.valueOf(cleanString(splittedLine[2])));
+
     }
 
     private static DroneMessageType getDroneMessageType(String moveDate) throws ParseException {
