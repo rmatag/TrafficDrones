@@ -93,12 +93,13 @@
         </dependency>
     </dependencies>
     <build>
-        <sourceDirectory>/src/main/java</sourceDirectory>
-        <testSourceDirectory>src/test</testSourceDirectory>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>com.rmatag.traffic.TrafficDronesApp</mainClass>
+                </configuration>
             </plugin>
         </plugins>
     </build>
