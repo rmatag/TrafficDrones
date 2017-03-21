@@ -32,7 +32,6 @@ public class TrafficDronesApp {
     public static void main(String[] args) {
         ConfigurableApplicationContext context = new SpringApplicationBuilder()
                 .sources(TrafficDronesApp.class)
-                .bannerMode(Banner.Mode.OFF)
                 .run(args);
 
         TrafficDronesApp app = context.getBean(TrafficDronesApp.class);
