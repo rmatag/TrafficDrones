@@ -19,6 +19,7 @@ public class ReportTrafficDAO {
     private Logger logger = LoggerFactory.getLogger(ReportTrafficDAO.class);
 
     private static final Integer MIN_DISTANCE_TO_STATION = 350;
+    private static final Double CONVERSION_RATE_DEGREES_TO_METERES = 111195.0;
 
     private String tubeStationsInfoFile;
 
@@ -49,10 +50,12 @@ public class ReportTrafficDAO {
     }
 
     private boolean isTubeStationInArea(TubeStation tubeStation, Drone drone) {
-        int absDistance = (int) Math.sqrt(Math.pow(tubeStation.getLatitude() - drone.getLatitude(), 2) + Math.pow(
+        double absDistance = Math.sqrt(Math.pow(tubeStation.getLatitude() - drone.getLatitude(), 2) + Math.pow(
                 tubeStation.getLongitude() - drone.getLongitude(), 2));
 
-        return absDistance < MIN_DISTANCE_TO_STATION.intValue();
+        double distanceInMeters = absDistance * CONVERSION_RATE_DEGREES_TO_METERES;
+
+        return Math.ceil(distanceInMeters) < MIN_DISTANCE_TO_STATION.intValue();
     }
 
     private String getRandomTrafficCondition() {
